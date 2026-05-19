@@ -37,11 +37,13 @@ def merge_sort(data, col):
 # LOAD CSV
 # ===============================
 
-def load_csv(filename):
+def load_csv(filename, limit=None):
     rows = []
     with open(filename, newline='', encoding='utf-8') as f:
         reader = csv.DictReader(f)
-        for row in reader:
+        for i, row in enumerate(reader):
+            if limit is not None and i >= limit:
+                break
             tool       = row["Primary_AI_Tool"]
             gpa_before = float(row["GPA_Baseline"])
             gpa_after  = float(row["GPA_Post_AI"])
@@ -61,7 +63,8 @@ def main():
     # ROOT: Baca dan DIVIDE
     # ===============================
     if rank == 0:
-        all_data  = load_csv(file)
+        limit = int(input("Jumlah data yang diproses: "))
+        all_data = load_csv(file, limit)
         n         = len(all_data)
         part_size = n // size + (1 if n % size != 0 else 0)
 
