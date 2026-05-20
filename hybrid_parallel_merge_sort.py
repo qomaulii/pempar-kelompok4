@@ -5,7 +5,7 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-file = "AI_Impact_Student_Life_2026_1M.csv"
+file = "AI_Impact_Student_Life_10K_2026.csv"
 
 # ===============================
 # MERGE SORT
@@ -37,13 +37,11 @@ def merge_sort(data, col):
 # LOAD CSV
 # ===============================
 
-def load_csv(filename, limit=None):
+def load_csv(filename):
     rows = []
     with open(filename, newline='', encoding='utf-8') as f:
         reader = csv.DictReader(f)
-        for i, row in enumerate(reader):
-            if limit is not None and i >= limit:
-                break
+        for row in reader:
             tool       = row["Primary_AI_Tool"]
             gpa_before = float(row["GPA_Baseline"])
             gpa_after  = float(row["GPA_Post_AI"])
@@ -63,8 +61,7 @@ def main():
     # ROOT: Baca dan DIVIDE
     # ===============================
     if rank == 0:
-        limit = int(input("Jumlah data yang diproses: "))
-        all_data = load_csv(file, limit)
+        all_data  = load_csv(file)
         n         = len(all_data)
         part_size = n // size + (1 if n % size != 0 else 0)
 
