@@ -5,7 +5,7 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-file = "AI_Impact_Student_Life_10K_2026.csv"
+file = "AI_Impact_Student_Life_2026_1M.csv"
 
 # ===============================
 # MERGE SORT
@@ -61,7 +61,7 @@ def main():
     # ROOT: Baca dan DIVIDE
     # ===============================
     if rank == 0:
-        all_data  = load_csv(file)
+        all_data  = load_csv(file) * 300
         n         = len(all_data)
         part_size = n // size + (1 if n % size != 0 else 0)
 
